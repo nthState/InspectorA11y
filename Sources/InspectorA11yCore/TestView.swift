@@ -21,7 +21,7 @@ extension TestView: View {
           .foregroundStyle(.white.shadow(.drop(radius: 1, y: 1.5)))
           .padding(60)
           .instruction(id: "2", "A photo")
-        Text("Hello, world! 22222")
+        Text("Hello, world!")
           .foregroundStyle(Color.orange)
           .font(.largeTitle)
           .instruction(id: "1", "say this")
