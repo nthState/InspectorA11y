@@ -3,14 +3,16 @@
 //
 
 import XCTest
-@testable import InspectorA11y
+@testable import InspectorA11yCore
 
 final class InspectorA11yTests: XCTestCase {
-    func testExample() throws {
-        // XCTest Documentation
-        // https://developer.apple.com/documentation/xctest
 
-        // Defining Test Cases and Test Methods
-        // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
-    }
+  @MainActor func testImageGeneration() async throws {
+
+    let c = Capture()
+    let image = await c.start(from: TestView())
+
+    XCTAssertNotNil(image)
+  }
+
 }
