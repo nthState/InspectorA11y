@@ -57,6 +57,15 @@ or
 Do we set up custom views in tests, and execute them?
 ```
 
+## SourceKit
+
+We can scan the source on macOS...but not on iOS...is there a world where we can generate the source in a mac build - then switch.
+Is it over-complicated?
+Would a regex be easier?
+
+## Source modification
+
+How do we handle source changes, and reverts? - We want it to be unobtrusive to the consumer.
 
 ## Testing
 
