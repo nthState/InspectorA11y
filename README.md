@@ -45,8 +45,10 @@ saves the images to disk
 revert changes
 
 what should it return?
-
-- A list of images?
+- A success/error code
+- A text version of the output?
+- A list of urls to the images
+- Should we score them?
 ```
 
 or
