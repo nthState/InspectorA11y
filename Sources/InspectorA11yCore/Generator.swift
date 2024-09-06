@@ -51,14 +51,15 @@ extension Generator: View {
         lhs.key > rhs.key
       }), id: \.key) { key, itemData in
 
-        let l = itemData.rect
+        let targetRect = itemData.rect
+        let sourceRect = CGRect(x: 10, y: targetRect.origin.y - 10, width: 100, height: 100)
 
         Path { path in
-          path.move(to: CGPoint(x: 50, y: 50))
+          path.move(to: CGPoint(x: sourceRect.midX, y: sourceRect.midY))
           //path.addLine(to: CGPoint(x: (500-(image.size.width/2))+l.midX, y: (500-(image.size.height/2))+l.midY))
-          let to = CGPoint(x: (500-(imageSize.width/2))+l.midX, y: (500-(imageSize.height/2))+l.midY)
-          let ctrl1 = CGPoint(x: (500-(imageSize.width/2))+l.midX / 2, y: 50)
-          let ctrl2 = CGPoint(x: 50, y: (500-(imageSize.height/2))+l.midY)
+          let to = CGPoint(x: (500-(imageSize.width/2))+targetRect.midX, y: (500-(imageSize.height/2))+targetRect.midY)
+          let ctrl1 = CGPoint(x: (500-(imageSize.width/2))+targetRect.midX / 2, y: sourceRect.origin.y)
+          let ctrl2 = CGPoint(x: sourceRect.origin.x, y: (500-(imageSize.height/2))+targetRect.midY)
           path.addCurve(to: to, control1: ctrl1, control2: ctrl2)
         }
         .stroke(.blue, lineWidth: 2.5)
@@ -67,23 +68,23 @@ extension Generator: View {
 
             // text box
             Path { path in
-              path.addRect(CGRect(x: 0, y: 0, width: 100, height: 100))
+              path.addRect(sourceRect)
             },
 
             // item on screenshot
             Path { path in
-              path.addRect(CGRect(origin: CGPoint(x: (500-(imageSize.width/2)) + l.minX, y: (500-(imageSize.height/2)) + l.minY), size: CGSize(width: l.size.width, height: l.size.height)))
+              path.addRect(CGRect(origin: CGPoint(x: (500-(imageSize.width/2)) + targetRect.minX, y: (500-(imageSize.height/2)) + targetRect.minY), size: CGSize(width: targetRect.size.width, height: targetRect.size.height)))
             }
           )
           .fill(style: FillStyle(eoFill: true))
         }
 
         Text(itemData.message)
-          .frame(width: 100, height: 100)
+          .frame(width: sourceRect.width, height: sourceRect.height)
           .border(Color.pink)
           .font(.largeTitle)
           .foregroundStyle(Color.pink)
-        //.offset(x: 50, y: 500)
+          .offset(x: sourceRect.minX, y: sourceRect.minY)
 
 
       }
