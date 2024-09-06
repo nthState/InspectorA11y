@@ -6,7 +6,7 @@ I wanted a tool to export on a view basis what I'm missing.
 
 | Input    | Output  |
 | -------- | ------- |
-| ![Input](/Documents/input.png)  | ![Output](/Documents/output.jpeg)    |
+| ![Input](/Documents/input.png)  | ![Output](/Documents/output.jpg)    |
 
 The idea is that you pass in a view, and it generates another view showing the accessible data for the view.
 
