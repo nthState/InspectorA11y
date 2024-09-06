@@ -17,6 +17,20 @@ The idea is that you pass in a view, and it generates another view showing the a
 How do I want to use it?
 
 ```
+Do we set up custom views in tests, and execute them?
+
+  @MainActor func testImageGeneration() async throws {
+
+    let c = Capture()
+    let image = await c.start(from: TestView())
+
+    XCTAssertNotNil(image)
+  }
+```
+
+or
+
+```
 This would mean that we'd have to go through all files and append the extra modifiers at runtime.
 
 #Preview {
@@ -49,12 +63,6 @@ what should it return?
 - A text version of the output?
 - A list of urls to the images
 - Should we score them?
-```
-
-or
-
-```
-Do we set up custom views in tests, and execute them?
 ```
 
 ## SourceKit
