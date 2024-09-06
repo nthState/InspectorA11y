@@ -30,9 +30,13 @@ I guess this would only work when the user previewed, default parameters could b
 or
 
 ```
+Run a swift command like
+
 swift run InspectorA11y
 
-Takes a snapshot
+This would then:
+
+Takes a snapshot of the code
 Finds all elements like `Text()` `Image()` `.accessibilityIdentifiers`.
 adds an additional modifier after it.
 It then takes those views
@@ -48,7 +52,15 @@ what should it return?
 or
 
 ```
-Is this ran as part of tests?
+Do we set up custom views in tests, and execute them?
+```
+
+
+## Testing
+
+```
+swift build
+swift run InspectorA11y
 ```
 
 
