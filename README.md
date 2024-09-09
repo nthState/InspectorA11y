@@ -1,8 +1,10 @@
 # Inspector A11y
 
-This is a proof of concept to export Accessibility Overviews from Xcode.
+This is a proof of concept to export Accessibility Overviews for SwiftUI Views from Xcode.
+
 Why? The European Accessiblity Act 2025 requires us to make Apps accessible.
-I wanted a tool to export on a view basis what I'm missing.
+
+I wanted a tool to export, on a per view basis, what I'm missing.
 
 | Type     | Input   | Output   |
 | -------- | ------- | -------- |
