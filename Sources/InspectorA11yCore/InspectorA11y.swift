@@ -2,58 +2,65 @@
 //  Copyright © nthState Ltd. 2024. All rights reserved.
 //
 
+import Foundation
+import CoreGraphics
 import SwiftUI
 
-struct InspectorA11y {
-  @Environment(\.colorScheme) var colorScheme
-  @State var capture: CGImage?
-  @State var result: CGImage?
-  @State var rects: [String: ItemData] = [: ]
-}
+class InspectorA11y {
 
-extension InspectorA11y: View {
-  var body: some View {
-    Circle()
-      .onAppear {
+  private var capture: CGImage?
+  private var result: CGImage?
+  private var rects: [String: ItemData] = [: ]
+  private let configuration: GenerationConfiguration
 
-        @MainActor func regen() {
-          print("generate main image: \(rects)")
-          result = ImageRenderer(content:
-
-                                  Generator(image: capture!, rects: rects)
-
-          ).cgImage
-
-          if let data = result?.pngData() {
-            let filename = getDocumentsDirectory().appendingPathComponent("copy.png")
-            print("writing to \(filename)")
-            try? data.write(to: filename)
-          }
-        }
-
-        capture = ImageRenderer(content:
-
-                                  TestView()
-          .environment(\.colorScheme, colorScheme)
-          .onPreferenceChange(InstructionOverlayPreferenceDataKey.self) { preferences in
-            print("preferences: \(preferences)")
-            for p in preferences {
-              rects[p.id] = p.itemData
-            }
-
-            regen()
-          }
-
-        ).cgImage
-
-        //print("Found: \(rects)")
-
-
-
-      }
+  public init(configuration: GenerationConfiguration = .all) {
+    self.configuration = configuration
   }
-}
 
-#Preview {
-  InspectorA11y()
+  @MainActor func capture(from view: some View) async -> CGImage? {
+
+    let name = String(describing: view.self).trimmingCharacters(in: .alphanumerics.inverted)
+
+    capture = ImageRenderer(content:
+
+                              view
+      //.environment(\.colorScheme, colorScheme)
+      .onPreferenceChange(InstructionOverlayPreferenceDataKey.self) { preferences in
+        print("preferences: \(preferences)")
+        for p in preferences {
+          self.rects[p.id] = p.itemData
+        }
+      }
+
+    ).cgImage
+
+    try? await Task.sleep(nanoseconds: 1_000_000_000)
+
+    return regen(name: name)
+
+  }
+
+  @MainActor func regen(name: String) -> CGImage? {
+    print("generate main image: \(rects)")
+    result = ImageRenderer(content:
+
+                            Generator(image: capture!, rects: rects)
+
+    ).cgImage
+
+    if let data = result?.pngData() {
+
+
+      let filename = getDocumentsDirectory()
+        .appendingPathComponent("\(name)_\(configuration.description).png")
+
+      print("writing to \(filename)")
+      try? data.write(to: filename)
+
+      return result
+    }
+
+    return nil
+  }
+
 }

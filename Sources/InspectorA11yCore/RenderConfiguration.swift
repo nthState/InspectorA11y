@@ -11,5 +11,5 @@ struct RenderConfiguration: OptionSet {
     self.rawValue = rawValue
   }
   
-  public static var transparent = GenerationConfiguration(rawValue: 1 << 0)
+  public static let transparent = GenerationConfiguration(rawValue: 1 << 0)
 }
