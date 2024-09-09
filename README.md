@@ -6,6 +6,26 @@ Why? The European Accessiblity Act 2025 requires us to make Apps accessible.
 
 I wanted a tool to export, on a per view basis, what I'm missing.
 
+Given
+
+```swift
+VStack {
+  Image(systemName: "photo")
+    .font(.system(size: 80))
+    .background(in: Circle().inset(by: -40))
+    .backgroundStyle(.blue.gradient)
+    .foregroundStyle(.white.shadow(.drop(radius: 1, y: 1.5)))
+    .padding(60)
+    .accessibilityLabel("A photo")
+    .accessibility(sortPriority: 1)
+  Text("Hello, world!")
+    .foregroundStyle(Color.orange)
+    .font(.largeTitle)
+    .accessibilityLabel("say this")
+    .accessibility(sortPriority: 2)
+}
+```
+
 | Type     | Input   | Output   |
 | -------- | ------- | -------- |
 | Voice over text | ![Input](/Documents/input.png)  | ![Output](/Documents/voiceOverText.jpg) |
