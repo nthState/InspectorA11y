@@ -6,6 +6,11 @@ import Foundation
 import CoreGraphics
 import SwiftUI
 
+struct CaptureResult {
+  let image: CGImage
+  let url: URL
+}
+
 class InspectorA11y {
 
   private var capture: CGImage?
@@ -17,14 +22,14 @@ class InspectorA11y {
     self.configuration = configuration
   }
 
-  @MainActor func capture(from view: some View) async -> CGImage? {
+  @MainActor func capture(from view: some View) async -> CaptureResult? {
 
     let name = String(describing: view.self).trimmingCharacters(in: .alphanumerics.inverted)
 
     capture = ImageRenderer(content:
 
                               view
-      //.environment(\.colorScheme, colorScheme)
+                            //.environment(\.colorScheme, colorScheme)
       .onPreferenceChange(InstructionOverlayPreferenceDataKey.self) { preferences in
         print("preferences: \(preferences)")
         for p in preferences {
@@ -37,14 +42,13 @@ class InspectorA11y {
     try? await Task.sleep(nanoseconds: 1_000_000_000)
 
     return regen(name: name)
-
   }
 
-  @MainActor func regen(name: String) -> CGImage? {
+  @MainActor func regen(name: String) -> CaptureResult? {
     print("generate main image: \(rects)")
     result = ImageRenderer(content:
 
-                            Generator(image: capture!, rects: rects)
+                            Generator(configuration: configuration, image: capture!, rects: rects)
 
     ).cgImage
 
@@ -57,7 +61,7 @@ class InspectorA11y {
       print("writing to \(filename)")
       try? data.write(to: filename)
 
-      return result
+      return CaptureResult(image: result!, url: filename)
     }
 
     return nil

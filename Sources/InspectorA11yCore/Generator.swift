@@ -6,16 +6,18 @@ import SwiftUI
 
 struct Generator {
   let image: CGImage
+  let configuration: GenerationConfiguration
   var rects: [String: ItemData] = ["test": ItemData(rect: CGRect(origin: .zero, size: CGSize(width: 100, height: 100)), message: "some message")]
 
   let imageSize: CGSize
 
-  init(image: CGImage, rects: [String : ItemData] = [: ]) {
+  init(configuration: GenerationConfiguration, image: CGImage, rects: [String : ItemData] = [: ]) {
     self.image = image
+    self.configuration = configuration
     self.rects = rects
     self.imageSize = CGSize(width: image.width, height: image.height)
 
-    //    let analysis = Analyser()
+    //    playing with source kit here let analysis = Analyser()
     //    //analysis.findFeatures(inURL: URL(string: "/Users/chrisdavis/Developer/InspectorA11y/Sources/InspectorA11y/TestView.swift")!)
     //    analysis.getModifiers(inURL: URL(string: "/Users/chrisdavis/Developer/InspectorA11y/Sources/InspectorA11y/TestView.swift")!)
 
@@ -29,7 +31,9 @@ extension Generator: View {
 
       content
 
-      labels
+      if configuration.contains(.voiceOverText) {
+        voiceOverText
+      }
 
       watermark
     }
@@ -39,13 +43,13 @@ extension Generator: View {
 
   private var watermark: some View {
     ZStack(alignment: .bottomTrailing) {
-      Text("Watermark")
+      Text("InspectorA11y")
         .foregroundStyle(Color.green)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
   }
 
-  private var labels: some View {
+  private var voiceOverText: some View {
     ZStack(alignment: .topLeading) {
       ForEach(rects.sorted(by: { lhs, rhs in
         lhs.key > rhs.key
@@ -56,7 +60,6 @@ extension Generator: View {
 
         Path { path in
           path.move(to: CGPoint(x: sourceRect.midX, y: sourceRect.midY))
-          //path.addLine(to: CGPoint(x: (500-(image.size.width/2))+l.midX, y: (500-(image.size.height/2))+l.midY))
           let to = CGPoint(x: (500-(imageSize.width/2))+targetRect.midX, y: (500-(imageSize.height/2))+targetRect.midY)
           let ctrl1 = CGPoint(x: (500-(imageSize.width/2))+targetRect.midX / 2, y: sourceRect.origin.y)
           let ctrl2 = CGPoint(x: sourceRect.origin.x, y: (500-(imageSize.height/2))+targetRect.midY)
@@ -85,7 +88,6 @@ extension Generator: View {
           .font(.largeTitle)
           .foregroundStyle(Color.pink)
           .offset(x: sourceRect.minX, y: sourceRect.minY)
-
 
       }
     }
@@ -122,7 +124,7 @@ extension Generator: View {
   if let image = ImageRenderer(content: Image("testImage", bundle: .module)).cgImage {
 
     print(image)
-    return Generator(image: image)
+    return Generator(configuration: .all, image: image)
   } else {
     return Rectangle()
   }
