@@ -55,15 +55,42 @@ extension Generator: View {
 
   private var tabOrder: some View {
     ZStack(alignment: .topLeading) {
+
+      // Draw lines connecting circles
+      Path { path in
+          let sortedRects = rects.sorted(by: { lhs, rhs in
+              lhs.key > rhs.key
+          })
+
+          // Iterate through the sorted rects to draw lines
+          for (index, element) in sortedRects.enumerated() {
+              let rect = element.value.rect
+              let centerPoint = CGPoint(
+                  x: rect.midX + 500.0 - (imageSize.width / 2),
+                  y: rect.midY + 500.0 - (imageSize.height / 2)
+              )
+
+              if index == 0 {
+                  path.move(to: centerPoint) // Start at the first circle
+              } else {
+                  path.addLine(to: centerPoint) // Draw a line to the next circle
+                  path.move(to: centerPoint) // Move the path to the next starting point
+              }
+          }
+      }
+      .stroke(Color.red, lineWidth: 2) // Customize the line color and width
+
       ForEach(rects.sorted(by: { lhs, rhs in
         lhs.key > rhs.key
       }), id: \.key) { key, itemData in
 
         let rect = itemData.rect
 
-        TabOrderView(order: itemData.order, realOrder: itemData.order)
-          .offset(x: rect.minX, y: rect.minY)
+        TabOrderView(order: itemData.order, realOrder: itemData.order, color: .red)
+          .frame(width: 40, height: 40) // Size of the circle
+          .offset(x: rect.midX, y: rect.midY)
           .offset(x: 500.0-(imageSize.width/2), y: 500.0-(imageSize.height/2))
+          .offset(x: -20, y: -20)
 
       }
     }
