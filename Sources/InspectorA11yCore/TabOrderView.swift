@@ -17,14 +17,21 @@ extension TabOrderView: View {
       .fill(Color.white)
       .overlay(
         Text("\(order)")
-          .font(.largeTitle) // Font size
-          .foregroundColor(color) // Text color
+          .font(.largeTitle)
+          .foregroundColor(color)
+          .minimumScaleFactor(0.01)
       )
   }
 }
 
 #Preview {
-  TabOrderView(order: 1, realOrder: 1000, color: .blue)
-    .frame(width: 40, height: 40) // Size of the circle
-    .background(Color.red)
+  VStack {
+    TabOrderView(order: 1, realOrder: 2, color: .blue)
+      .frame(width: 40, height: 40)
+      .background(Color.red)
+
+    TabOrderView(order: 1000, realOrder: 1000, color: .blue)
+      .frame(width: 40, height: 40)
+      .background(Color.red)
+  }
 }
