@@ -7,10 +7,12 @@ import SwiftUI
 public struct ItemData: Equatable {
   public let rect: CGRect
   public let message: String
+  public let order: Int
 
-  public init(rect: CGRect, message: String) {
+  public init(rect: CGRect, message: String, order: Int) {
     self.rect = rect
     self.message = message
+    self.order = order
   }
 }
 
@@ -18,6 +20,7 @@ struct ActionInstructionModifier: ViewModifier {
 
   let id: String
   let instruction: String
+  let order: Int
 
   func body(content: Content) -> some View {
 
@@ -29,7 +32,7 @@ struct ActionInstructionModifier: ViewModifier {
               .fill(Color.clear)
           }
           .preference(key: InstructionOverlayPreferenceDataKey.self, value: [
-            InstructionOverlayPreferenceData(id: id, itemData: ItemData(rect: geometry.frame(in: .global), message: instruction))]
+            InstructionOverlayPreferenceData(id: id, itemData: ItemData(rect: geometry.frame(in: .global), message: instruction, order: order))]
           )
         }
       )
@@ -37,8 +40,8 @@ struct ActionInstructionModifier: ViewModifier {
 }
 
 extension View {
-  func instruction(id: String, _ text: String) -> some View {
-    modifier(ActionInstructionModifier(id: id, instruction: text))
+  func instruction(id: String, _ text: String, order: Int) -> some View {
+    modifier(ActionInstructionModifier(id: id, instruction: text, order: order))
   }
 }
 

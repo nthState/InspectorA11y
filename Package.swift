@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
   name: "InspectorA11y",
-  platforms: [.iOS(.v16), .macOS(.v13)],
+  platforms: [.iOS(.v17), .macOS(.v13)],
   products: [
     .library(
       name: "InspectorA11yCore",

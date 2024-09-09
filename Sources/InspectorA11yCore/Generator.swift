@@ -7,7 +7,7 @@ import SwiftUI
 struct Generator {
   let image: CGImage
   let configuration: GenerationConfiguration
-  var rects: [String: ItemData] = ["test": ItemData(rect: CGRect(origin: .zero, size: CGSize(width: 100, height: 100)), message: "some message")]
+  var rects: [String: ItemData] = ["test": ItemData(rect: CGRect(origin: .zero, size: CGSize(width: 100, height: 100)), message: "some message", order: 1)]
 
   let imageSize: CGSize
 
@@ -35,6 +35,10 @@ extension Generator: View {
         voiceOverText
       }
 
+      if configuration.contains(.tabOrder) {
+        tabOrder
+      }
+
       watermark
     }
     .frame(width: 1000, height: 1000)
@@ -43,10 +47,26 @@ extension Generator: View {
 
   private var watermark: some View {
     ZStack(alignment: .bottomTrailing) {
-      Text("InspectorA11y")
+      Text("InspectorA11y \(String(describing: Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year))")
         .foregroundStyle(Color.green)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+  }
+
+  private var tabOrder: some View {
+    ZStack(alignment: .topLeading) {
+      ForEach(rects.sorted(by: { lhs, rhs in
+        lhs.key > rhs.key
+      }), id: \.key) { key, itemData in
+
+        let rect = itemData.rect
+
+        TabOrderView(order: itemData.order, realOrder: itemData.order)
+          .offset(x: rect.minX, y: rect.minY)
+          .offset(x: 500.0-(imageSize.width/2), y: 500.0-(imageSize.height/2))
+
+      }
+    }
   }
 
   private var voiceOverText: some View {

@@ -13,7 +13,8 @@ extension TabOrderView: View {
   var body: some View {
     Circle()
       .stroke(Color.blue, lineWidth: 4)
-      .frame(width: 100, height: 100) // Size of the circle
+      .fill(Color.white)
+      .frame(width: 40, height: 40) // Size of the circle
       .overlay(
         Text("\(order)")
           .font(.largeTitle) // Font size
@@ -24,4 +25,5 @@ extension TabOrderView: View {
 
 #Preview {
   TabOrderView(order: 1, realOrder: 1000)
+    .background(Color.red)
 }

@@ -4,12 +4,12 @@ This is a proof of concept to export Accessibility Overviews from Xcode.
 Why? The European Accessiblity Act 2025 requires us to make Apps accessible.
 I wanted a tool to export on a view basis what I'm missing.
 
-| Input    | Output  |
-| -------- | ------- |
-| ![Input](/Documents/input.png)  | ![Output](/Documents/output.jpg)    |
+| Type     | Input   | Output   |
+| -------- | ------- | -------- |
+| Voice over text | ![Input](/Documents/input.png)  | ![Output](/Documents/voiceOverText.jpg) |
+| Tab Order | ![Input](/Documents/input.png)  | ![Output](/Documents/tabOrder.jpg) |
 
 The idea is that you pass in a view, and it generates another view showing the accessible data for the view.
-
 
 ## Ramblings below
 
@@ -21,10 +21,10 @@ Do we set up custom views in tests, and execute them?
 
   @MainActor func testImageGeneration() async throws {
 
-    let c = Capture()
-    let image = await c.start(from: TestView())
+    let c = InspectorA11y()
+    let result = await c.capture(from: TestView())
 
-    XCTAssertNotNil(image)
+    XCTAssertNotNil(result)
   }
 ```
 
