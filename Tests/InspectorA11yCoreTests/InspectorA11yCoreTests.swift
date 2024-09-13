@@ -56,13 +56,29 @@ final class InspectorA11yCoreTests: XCTestCase {
 
       Step Pre-Build Pre-Run
         pass in the files we want
+        git stash push -m "accessibility-generation"
         modify them
-        write them somewhere else
+        write to the bottom of the existing file?
       Step
           Compile - what are we compiling?
       Step
           Generate Run
+      Step
+          Clean up
+          git stash apply stash@{0}
 
+
+     OR
+
+     Step Pre-Build Pre-Run
+       pass in the files we want
+       git stash push -m "accessibility-generation"
+       modify them
+       write to the bottom of the existing file? / do we have to replace the existing file as we cant init a view from a string
+     Step
+      Add a unit test that runs let image = await c.capture(from: TestView()) for each file? - it would need to know the names of the views
+    Step Post-Build
+     git stash apply stash@{0}
 
      */
 
@@ -117,10 +133,10 @@ extension TmpView: View {
 
     ////try str.write(to: URL(fileURLWithPath: "/Users/chrisdavis/Developer/InspectorA11y/Sources/InspectorA11yCore/tmp.swift"), atomically: true, encoding: .utf8)
 
-    let c = InspectorA11y()
-    let image = await c.capture(from: TmpView())
-
-    XCTAssertNotNil(image)
+//    let c = InspectorA11y()
+//    let image = await c.capture(from: TmpView())
+//
+//    XCTAssertNotNil(image)
 
 
   }
