@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct GenerationConfiguration: OptionSet {
+public struct GenerationConfiguration: OptionSet {
   public let rawValue: UInt
 
   public init(rawValue: UInt) {

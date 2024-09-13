@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "Running InspectorA11y CLI"
+
 /usr/bin/xcrun --sdk macosx swift build -v \
     -Xswiftc "-sdk" \
     -Xswiftc "`xcrun --sdk macosx --show-sdk-path`"

@@ -6,12 +6,12 @@ import Foundation
 import CoreGraphics
 import SwiftUI
 
-struct CaptureResult {
-  let image: CGImage
-  let url: URL
+public struct CaptureResult {
+  public let image: CGImage
+  public let url: URL
 }
 
-class InspectorA11y {
+public class InspectorA11y {
 
   private var capture: CGImage?
   private var result: CGImage?
@@ -22,7 +22,7 @@ class InspectorA11y {
     self.configuration = configuration
   }
 
-  @MainActor func capture(from view: some View) async -> CaptureResult? {
+  @MainActor public func capture(from view: some View) async -> CaptureResult? {
 
     let name = String(describing: view.self).trimmingCharacters(in: .alphanumerics.inverted)
 

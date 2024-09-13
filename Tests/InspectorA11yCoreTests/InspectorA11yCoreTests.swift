@@ -80,6 +80,15 @@ final class InspectorA11yCoreTests: XCTestCase {
     Step Post-Build
      git stash apply stash@{0}
 
+
+     More concrete
+
+     git stash push -m "accessibility-generation"
+     swift run InspectorA11yGenerate -f Sources/InspectorA11yCore/TestView.swift -f Sources/InspectorA11yCore/TestView2.swift -o SomeFolder/
+     Compile and run Tests // xcodebuild clean test -project "${{ env.PROJECT_NAME }}" -scheme "iOS App" -destination "${{ matrix.devices.destination }}" -testPlan "${{ env.testplan }}"
+     git stash apply stash@{0}
+
+
      */
 
 
