@@ -87,6 +87,11 @@ what should it return?
 - Should we score them?
 ```
 
+## Regex?
+
+What if instead of passing in a view, we pass in a file?
+Can we read the source code, copy a view, modify and then generate from that view?
+
 ## SourceKit
 
 We can scan the source on macOS...but not on iOS...is there a world where we can generate the source in a mac build - then switch.
