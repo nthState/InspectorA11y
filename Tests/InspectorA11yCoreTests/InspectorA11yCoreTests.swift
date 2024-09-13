@@ -54,14 +54,14 @@ final class InspectorA11yCoreTests: XCTestCase {
      This might need to be multistage in a CLI
 
 
-      Step
+      Step Pre-Build Pre-Run
         pass in the files we want
         modify them
         write them somewhere else
       Step
           Compile - what are we compiling?
       Step
-          Generate
+          Generate Run
 
 
      */
