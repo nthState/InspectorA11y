@@ -10,6 +10,9 @@ import InspectorA11yCore
 /**
  Examples:
  swift run InspectorA11y /TestView.swift /TestView2.swift
+ echo "yes" | swift run InspectorA11y /TestView.swift /TestView2.swift
+
+ echo $? // to print the
  */
 
 @main
@@ -33,5 +36,15 @@ public struct CLI: AsyncParsableCommand {
     print("InspectorA11yCore Starting")
     print("files: \(files)")
 
+    // enter yes to continue
+    print("Type 'yes' to continue:")
+    if let response = readLine(), response.lowercased() == "yes" {
+      // Continue with the rest of the code
+      print("Continuing with the operation...")
+    } else {
+      // Handle the case where the user does not type 'yes'
+      print("Operation aborted.")
+      throw ExitCode(1)
+    }
   }
 }
