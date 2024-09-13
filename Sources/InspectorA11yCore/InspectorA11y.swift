@@ -48,7 +48,7 @@ class InspectorA11y {
     print("generate main image: \(rects)")
     result = ImageRenderer(content:
 
-                            Generator(configuration: configuration, image: capture!, rects: rects)
+                            OutputImageGenerator(configuration: configuration, image: capture!, rects: rects)
 
     ).cgImage
 

@@ -32,7 +32,100 @@ final class InspectorA11yCoreTests: XCTestCase {
     XCTAssertNotNil(image)
   }
 
-  func testMirror() {
+  @MainActor func testCreatingANewFile() async throws {
+
+    /**
+     read Sources/InspectorA11yCore/TestView.swift
+
+      find all text / Buttons
+
+      in the found sections, work out what the accessibility details are.
+
+      add them in reverse order
+
+     write to a new file
+
+     ....how do we get that into the project for compilation?
+     */
+
+
+    /**
+
+     This might need to be multistage in a CLI
+
+
+      Step
+        pass in the files we want
+        modify them
+        write them somewhere else
+      Step
+          Compile - what are we compiling?
+      Step
+          Generate
+
+
+     */
+
+
+    let str = """
+//
+//  Copyright © nthState Ltd. 2024. All rights reserved.
+//
+
+import Foundation
+import SwiftUI
+
+struct TmpView {
+
+}
+
+extension TmpView: View {
+  var body: some View {
+    ZStack {
+      Rectangle().fill(Color(red: 4/255, green: 5/255, blue: 15/255).gradient)
+      VStack {
+        Image(systemName: "photo")
+          .font(.system(size: 80))
+          .background(in: Circle().inset(by: -40))
+          .backgroundStyle(.blue.gradient)
+          .foregroundStyle(.white.shadow(.drop(radius: 1, y: 1.5)))
+          .padding(60)
+          .instruction(id: "2", "A photo", order: 2)
+        Text("Hello, world!")
+          .foregroundStyle(Color.orange)
+          .font(.largeTitle)
+          .accessibilitySortPriority(123)             // not found
+          .accessibility(sortPriority: 20)            // AccessibilityPropertiesEntry AccessibilityAttachmentModifier
+          .accessibilityLabel("some label")           // AccessibilityLabelStorage AccessibilityAttachmentModifier
+          .instruction(id: "1", "say this", order: 1) // ActionInstructionModifier
+        Button(action: {}, label: {
+          Text("Button")
+        })
+        .accessibility(sortPriority: 1000)
+        .instruction(id: "3", "button", order: 1000)
+      }
+    }
+    .frame(height: 400)
+  }
+}
+
+#Preview {
+  TmpView()
+}
+
+"""
+
+    ////try str.write(to: URL(fileURLWithPath: "/Users/chrisdavis/Developer/InspectorA11y/Sources/InspectorA11yCore/tmp.swift"), atomically: true, encoding: .utf8)
+
+    let c = InspectorA11y()
+    let image = await c.capture(from: TmpView())
+
+    XCTAssertNotNil(image)
+
+
+  }
+
+  func testUsingSwiftMirror() {
 
     let item = TestView().body
       .environment(TestObservable())
@@ -46,7 +139,7 @@ final class InspectorA11yCoreTests: XCTestCase {
     print(mirror)
 
     for child in children {
-      print("\(String(repeating: " ", count: indent))child: \(child.label) \(child.value)")
+      print("\(String(repeating: " ", count: indent))child: \(String(describing: child.label)) \(child.value)")
 
       inspect(item: child.value, indent: indent + 1)
     }

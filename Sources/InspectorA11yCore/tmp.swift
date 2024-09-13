@@ -1,14 +1,20 @@
 //
-//  File.swift
-//  InspectorA11y
-//
-//  Created by Chris Davis on 13/09/2024.
+//  Copyright © nthState Ltd. 2024. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
 
-struct TmpView: View {
+struct TmpView {
+
+}
+
+extension TmpView: View {
   var body: some View {
-    Text("Implement me")
+    Text("implement me")
   }
+}
+
+#Preview {
+  TmpView()
 }

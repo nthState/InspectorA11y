@@ -24,7 +24,7 @@ extension TestView: View {
         Text("Hello, world!")
           .foregroundStyle(Color.orange)
           .font(.largeTitle)
-          .accessibilitySortPriority(123)              // not found
+          .accessibilitySortPriority(123)             // not found
           .accessibility(sortPriority: 20)            // AccessibilityPropertiesEntry AccessibilityAttachmentModifier
           .accessibilityLabel("some label")           // AccessibilityLabelStorage AccessibilityAttachmentModifier
           .instruction(id: "1", "say this", order: 1) // ActionInstructionModifier
