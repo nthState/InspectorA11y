@@ -4,7 +4,7 @@
 
 import SwiftUI
 
-struct Generator {
+struct OutputImageGenerator {
   let image: CGImage
   let configuration: GenerationConfiguration
   var rects: [String: ItemData] = ["test": ItemData(rect: CGRect(origin: .zero, size: CGSize(width: 100, height: 100)), message: "some message", order: 1)]
@@ -24,7 +24,7 @@ struct Generator {
   }
 }
 
-extension Generator: View {
+extension OutputImageGenerator: View {
   var body: some View {
 
     ZStack(alignment: .topLeading) {
@@ -171,7 +171,7 @@ extension Generator: View {
   if let image = ImageRenderer(content: Image("testImage", bundle: .module)).cgImage {
 
     print(image)
-    return Generator(configuration: .all, image: image)
+    return OutputImageGenerator(configuration: .all, image: image)
   } else {
     return Rectangle()
   }
