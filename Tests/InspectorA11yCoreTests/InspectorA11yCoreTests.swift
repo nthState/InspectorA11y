@@ -83,6 +83,8 @@ final class InspectorA11yCoreTests: XCTestCase {
 
      More concrete
 
+     echo "ChrisDDD"
+     echo "yes" | ${BUILD_DIR%Build/*}SourcePackages/checkouts/InspectorA11y/run /Users/chrisdavis/Developer/InspectorA11yApp/InspectorA11yApp/ContentView.swift
 
      git stash push -m "accessibility-generation"
      ENABLE_USER_SCRIPT_SANDBOXING = NO

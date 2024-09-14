@@ -26,6 +26,11 @@ extension CLI {
       do {
         print("Processing: \(url)".yellow())
         try processFile(url: url)
+
+// TODO generate
+//        let c = InspectorA11y(configuration: .voiceOverText)
+//        let image = await c.capture(from: TestView())
+
         print("Processed: \(url)".blue())
       } catch {
         print("Failed to process: \(url)".red())
