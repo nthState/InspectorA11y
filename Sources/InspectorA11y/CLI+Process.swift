@@ -83,7 +83,7 @@ extension CLI {
       let str = "\n.instruction(id: \"\(item.id)\", \"\(item.text!)\", order: \(item.order!))\n"
       fileContents.insert(contentsOf: str, at:  fileContents.index(fileContents.startIndex, offsetBy: item.index))
     }
-    fileContents.insert(contentsOf: "import InspectorA11y", at: fileContents.index(fileContents.startIndex, offsetBy: 0))
+    fileContents.insert(contentsOf: "import InspectorA11yCore", at: fileContents.index(fileContents.startIndex, offsetBy: 0))
 
     if !dryRun {
       print("Writing: \(fileURL)")

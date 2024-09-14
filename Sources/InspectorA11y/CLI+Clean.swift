@@ -15,7 +15,7 @@ extension CLI {
     for url in files {
       do {
         print("Cleaning: \(url)".yellow())
-        try removeLinesStartingWith(prefixes: [".instruction", "import InspectorA11y"], from: url)
+        try removeLinesStartingWith(prefixes: [".instruction", "import InspectorA11yCore"], from: url)
         print("Cleaned: \(url)".blue())
       } catch {
         print("Failed to clean: \(url)".red())

@@ -40,7 +40,7 @@ struct ActionInstructionModifier: ViewModifier {
 }
 
 extension View {
-  func instruction(id: String, _ text: String, order: Int) -> some View {
+  public func instruction(id: String, _ text: String, order: Int) -> some View {
     modifier(ActionInstructionModifier(id: id, instruction: text, order: order))
   }
 }
