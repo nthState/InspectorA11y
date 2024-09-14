@@ -84,7 +84,7 @@ final class InspectorA11yCoreTests: XCTestCase {
      More concrete
 
      git stash push -m "accessibility-generation"
-     swift run InspectorA11yGenerate -f Sources/InspectorA11yCore/TestView.swift -f Sources/InspectorA11yCore/TestView2.swift -o SomeFolder/
+     swift run InspectorA11yGenerate -f Sources/InspectorA11yCore/TestView.swift -f Sources/InspectorA11yCore/TestView2.swift -o SomeFolder/ // maybe add a clean option?
      Compile and run Tests // xcodebuild clean test -project "${{ env.PROJECT_NAME }}" -scheme "iOS App" -destination "${{ matrix.devices.destination }}" -testPlan "${{ env.testplan }}"
      git stash apply stash@{0}
 

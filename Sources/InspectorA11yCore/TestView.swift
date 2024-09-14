@@ -20,19 +20,19 @@ extension TestView: View {
           .backgroundStyle(.blue.gradient)
           .foregroundStyle(.white.shadow(.drop(radius: 1, y: 1.5)))
           .padding(60)
-          .instruction(id: "2", "A photo", order: 2)
         Text("Hello, world!")
           .foregroundStyle(Color.orange)
           .font(.largeTitle)
           .accessibilitySortPriority(123)             // not found
           .accessibility(sortPriority: 20)            // AccessibilityPropertiesEntry AccessibilityAttachmentModifier
           .accessibilityLabel("some label")           // AccessibilityLabelStorage AccessibilityAttachmentModifier
-          .instruction(id: "1", "say this", order: 1) // ActionInstructionModifier
+        
         Button(action: {}, label: {
           Text("Button")
+
         })
         .accessibility(sortPriority: 1000)
-        .instruction(id: "3", "button", order: 1000)
+
       }
     }
     .frame(height: 400)
@@ -41,5 +41,5 @@ extension TestView: View {
 
 #Preview {
   TestView()
-    //.previewLayout(.fixed(width: 1000, height: 1000))
+  //.previewLayout(.fixed(width: 1000, height: 1000))
 }
