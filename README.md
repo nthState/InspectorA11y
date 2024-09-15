@@ -33,74 +33,9 @@ VStack {
 
 The idea is that you pass in a view, and it generates another view showing the accessible data for the view.
 
-## Ramblings below
+## Why not use Accessibility Inspector?
 
-
-How do I want to use it?
-
-```
-Do we set up custom views in tests, and execute them?
-
-  @MainActor func testImageGeneration() async throws {
-
-    let c = InspectorA11y()
-    let result = await c.capture(from: TestView())
-
-    XCTAssertNotNil(result)
-  }
-```
-
-or
-
-```
-This would mean that we'd have to go through all files and append the extra modifiers at runtime.
-
-#Preview {
-  TestView()
-    .inspectorA11y(generate: true, [.accessibilityIdentifiers, .tabOrder], rendering: [.transparent], folder: "", fileNamePrefix: "testview")
-}
-
-I guess this would only work when the user previewed, default parameters could be used. - maybe thats a good thing?
-```
-
-or
-
-```
-Run a swift command like
-
-swift run InspectorA11y
-
-This would then:
-
-Takes a snapshot of the code
-Finds all elements like `Text()` `Image()` `.accessibilityIdentifiers`.
-adds an additional modifier after it.
-It then takes those views
-runs them through the generator
-saves the images to disk
-revert changes
-
-what should it return?
-- A success/error code
-- A text version of the output?
-- A list of urls to the images
-- Should we score them?
-```
-
-## Regex?
-
-What if instead of passing in a view, we pass in a file?
-Can we read the source code, copy a view, modify and then generate from that view?
-
-## SourceKit
-
-We can scan the source on macOS...but not on iOS...is there a world where we can generate the source in a mac build - then switch.
-Is it over-complicated?
-Would a regex be easier?
-
-## Source modification
-
-How do we handle source changes, and reverts? - We want it to be unobtrusive to the consumer.
+I want to see everything at once.
 
 ## Testing
 
@@ -109,8 +44,15 @@ swift build
 swift run InspectorA11y
 ```
 
+## Output
+
+We return `images` and `URLs' to the images of the Views we generate.
+
+In the future, we may score each View.
+
 
 ## Accessibility Renderables
+- voice over text       Implemented
 - dark mode light mode
 - rotation
 - larger font sizes
@@ -118,30 +60,11 @@ swift run InspectorA11y
 - button shapes
 - device type
 - device sizes
-- tab order
-
-
-## Rendering options
-- transparency
-- watermark as configration
-
-
-## Technical
-- how do we inject render/configurations
-
-
-
-- how do i set the full image size?
-- save as image mode
--- file location
--- file naming
-- realtime mode? - render as a preview with custom size?
-- tile results mode?
-- CI generation and asset upload
-- do i return errors on the image?
-- do I make a swift run command?
+- tab order             Implemented
 
 ## Running inside Xcode
+
+InspectorA11y needs to modify your source to run, for generation only we need `ENABLE_USER_SCRIPT_SANDBOXING=NO`
 
 Add a `Build Phase` Run `Script`
 
@@ -186,21 +109,31 @@ env:
 jobs:
   build:
     name: Build
-    timeout-minutes: 15
+    timeout-minutes: 5
     steps:
 
       - name: Checkout
         uses: actions/checkout@v4
         
+      - name: Check dependencies
+        run: |
+          swift --version
+
+      - name: Close and run InspectorA11y
+        run: |
+          git clone https://github.com/nthState/InspectorA11y.git
+          cd InspectorA11y
+          chmod +x run
+          echo "yes" | ./run ~/MyFile.swift -output ~/AccessibilityImages
+        
       - name: Generate Accessibility Screenshots
         run: |
-            # swift run InspectorA11y someFolder -output someFolder // Sits inside the pre-build
-            xcodebuild clean test -project "${{ env.PROJECT_NAME }}" -scheme "${{ env.PROJECT_SCHEME }}" -destination "${{ env.DESTINATION }}" ENABLE_USER_SCRIPT_SANDBOXING=NO
+          xcodebuild clean test -project "${{ env.PROJECT_NAME }}" -scheme "${{ env.PROJECT_SCHEME }}" -destination "${{ env.DESTINATION }}" ENABLE_USER_SCRIPT_SANDBOXING=NO
             
-      - name: Upload Accessibility Screenshots
+      - name: Upload Accessibility Images
         uses: actions/upload-artifact@v4
         with:
-          name: AccessibilityScreenshots
+          name: AccessibilityImages
           path: someFolder
           retention-days: 3
 ```
@@ -208,165 +141,53 @@ jobs:
 
 
 
+## How it currently works
 
+I'm using Regular Expressions to search for blocks of text and their modifiers, then search within those found blocks to 
+extract any pertinent accessibility information.
 
+## Previous Ideas
 
+### Regex?
 
+What if instead of passing in a view, we pass in a file?
+Can we read the source code, copy a view, modify and then generate from that view?
 
+### SourceKit
 
+We can scan the source on macOS...but not on iOS...is there a world where we can generate the source in a mac build - then switch.
+Is it over-complicated?
+Would a regex be easier?
 
+### Reflection/Mirror API
 
+Can we use the `Mirror` API to find all of the view modifiers...yes.
+Can we use the `Mirror` API to modify the source? Np.
 
+### Realtime Accessibility Previews
 
+Could we add a view modifier to a preview of a view so that we could see the accessibility information in realtime?
 
-
-
-
-
-
-
-
-
-
-    /**
-     read Sources/InspectorA11yCore/TestView.swift
-
-      find all text / Buttons
-
-      in the found sections, work out what the accessibility details are.
-
-      add them in reverse order
-
-     write to a new file
-
-     ....how do we get that into the project for compilation?
-     */
-
-
-    /**
-
-     This might need to be multistage in a CLI
-
-
-      Step Pre-Build Pre-Run
-        pass in the files we want
-        git stash push -m "accessibility-generation"
-        modify them
-        write to the bottom of the existing file?
-      Step
-          Compile - what are we compiling?
-      Step
-          Generate Run
-      Step
-          Clean up
-          git stash apply stash@{0}
-
-
-     OR
-
-     Step Pre-Build Pre-Run
-       pass in the files we want
-       git stash push -m "accessibility-generation"
-       modify them
-       write to the bottom of the existing file? / do we have to replace the existing file as we cant init a view from a string
-     Step
-      Add a unit test that runs let image = await c.capture(from: TestView()) for each file? - it would need to know the names of the views
-    Step Post-Build
-     git stash apply stash@{0}
-
-
-     More concrete
-
-     echo "ChrisDDD"
-     echo "yes" | ${BUILD_DIR%Build/*}SourcePackages/checkouts/InspectorA11y/run /Users/chrisdavis/Developer/InspectorA11yApp/InspectorA11yApp/ContentView.swift
-
-     git stash push -m "accessibility-generation"
-     ENABLE_USER_SCRIPT_SANDBOXING = NO
-     swift run InspectorA11yGenerate -f Sources/InspectorA11yCore/TestView.swift -f Sources/InspectorA11yCore/TestView2.swift -o SomeFolder/ // maybe add a clean option?
-     Compile and run Tests // xcodebuild clean test -project "${{ env.PROJECT_NAME }}" -scheme "iOS App" -destination "${{ matrix.devices.destination }}" -testPlan "${{ env.testplan }}"
-     git stash apply stash@{0}
-
-
-     */
-
-
-    let str = """
-//
-//  Copyright © nthState Ltd. 2024. All rights reserved.
-//
-
-import Foundation
-import SwiftUI
-
-struct TmpView {
-
-}
-
-extension TmpView: View {
-  var body: some View {
-    ZStack {
-      Rectangle().fill(Color(red: 4/255, green: 5/255, blue: 15/255).gradient)
-      VStack {
-        Image(systemName: "photo")
-          .font(.system(size: 80))
-          .background(in: Circle().inset(by: -40))
-          .backgroundStyle(.blue.gradient)
-          .foregroundStyle(.white.shadow(.drop(radius: 1, y: 1.5)))
-          .padding(60)
-          .instruction(id: "2", "A photo", order: 2)
-        Text("Hello, world!")
-          .foregroundStyle(Color.orange)
-          .font(.largeTitle)
-          .accessibilitySortPriority(123)             // not found
-          .accessibility(sortPriority: 20)            // AccessibilityPropertiesEntry AccessibilityAttachmentModifier
-          .accessibilityLabel("some label")           // AccessibilityLabelStorage AccessibilityAttachmentModifier
-          .instruction(id: "1", "say this", order: 1) // ActionInstructionModifier
-        Button(action: {}, label: {
-          Text("Button")
-        })
-        .accessibility(sortPriority: 1000)
-        .instruction(id: "3", "button", order: 1000)
-      }
-    }
-    .frame(height: 400)
-  }
-}
-
+```
 #Preview {
-  TmpView()
+  TestView()
+    .inspectorA11y(generate: true, [.accessibilityIdentifiers, .tabOrder], rendering: [.transparent], folder: "", fileNamePrefix: "testview")
 }
+```
 
-"""
-
-    ////try str.write(to: URL(fileURLWithPath: "/Users/chrisdavis/Developer/InspectorA11y/Sources/InspectorA11yCore/tmp.swift"), atomically: true, encoding: .utf8)
-
-//    let c = InspectorA11y()
-//    let image = await c.capture(from: TmpView())
-//
-//    XCTAssertNotNil(image)
+## Rendering options
+- transparency
+- watermark as configration
 
 
-  }
-
-  func testUsingSwiftMirror() {
-
-    let item = TestView().body
-      .environment(TestObservable())
-
-    inspect(item: item, indent: 0)
-  }
-
-  func inspect(item: Any, indent: Int) {
-    let mirror = Mirror(reflecting: item)
-    let children = Array(mirror.children)
-    print(mirror)
-
-    for child in children {
-      print("\(String(repeating: " ", count: indent))child: \(String(describing: child.label)) \(child.value)")
-
-      inspect(item: child.value, indent: indent + 1)
-    }
-  }
-
-}
-*/
+## Technical
+- how do we inject render/configurations
+- how do i set the full image size?
+- save as image mode
+-- file location
+-- file naming
+- realtime mode? - render as a preview with custom size?
+- tile results mode?
+- CI generation and asset upload
+- do i return errors on the image?
+- do I make a swift run command?

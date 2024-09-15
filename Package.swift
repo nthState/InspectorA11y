@@ -21,10 +21,9 @@ let package = Package(
         "InspectorA11yCore",
         .product(name: "ArgumentParser", package: "swift-argument-parser")
       ]),
-    .target(name: "InspectorA11yCore", dependencies: ["Csourcekitd"], resources: [
+    .target(name: "InspectorA11yCore", dependencies: [], resources: [
       .process("Resources")
     ]),
-    .target(name: "Csourcekitd", dependencies: []),
     .testTarget(
       name: "InspectorA11yCoreTests",
       dependencies: ["InspectorA11yCore"])
