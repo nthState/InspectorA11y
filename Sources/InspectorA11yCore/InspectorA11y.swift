@@ -17,9 +17,11 @@ public class InspectorA11y {
   private var result: CGImage?
   private var rects: [String: ItemData] = [: ]
   private let configuration: GenerationConfiguration
+  private let output: URL
 
-  public init(configuration: GenerationConfiguration = .all) {
+  public init(configuration: GenerationConfiguration = .all, output: URL) {
     self.configuration = configuration
+    self.output = output
   }
 
   @MainActor public func capture(from view: some View) async -> CaptureResult? {
@@ -55,8 +57,7 @@ public class InspectorA11y {
     if let data = result?.pngData() {
 
 
-      let filename = getDocumentsDirectory()
-        .appendingPathComponent("\(name)_\(configuration.description).png")
+      let filename = output.appendingPathComponent("\(name)_\(configuration.description).png")
 
       print("writing to \(filename)")
       try? data.write(to: filename)
