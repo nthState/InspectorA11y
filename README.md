@@ -107,7 +107,7 @@ jobs:
         run: |
           swift --version
 
-      - name: Close and run InspectorA11y
+      - name: Clone and run InspectorA11y
         run: |
           git clone https://github.com/nthState/InspectorA11y.git
           cd InspectorA11y
@@ -122,7 +122,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: AccessibilityImages
-          path: someFolder
+          path: ~/AccessibilityImages
           retention-days: 3
 ```
 
