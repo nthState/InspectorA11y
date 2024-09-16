@@ -6,9 +6,16 @@ Why? The European Accessiblity Act 2025 requires us to make Apps accessible.
 
 I wanted a tool to export, on a per view basis, what I'm missing.
 
-Given
+Given the following SwiftUI Code, we can export the Accessibility Overview images below
 
-```swift
+<table>
+  <tr>
+    <th>SwiftUI Code</th>
+    <th>Rendered Code</th>
+  </tr>
+  <tr>
+    <td>
+    ```swift
 VStack {
   Image(systemName: "photo")
     .font(.system(size: 80))
@@ -25,11 +32,15 @@ VStack {
     .accessibility(sortPriority: 2)
 }
 ```
+    </td>
+    <td>![Input](/Documents/input.png)</td>
+  </tr>
+</table>
 
-| Type     | Input   | Output   |
-| -------- | ------- | -------- |
-| Voice over text | ![Input](/Documents/input.png)  | ![Output](/Documents/voiceOverText.jpg) |
-| Tab Order | ![Input](/Documents/input.png)  | ![Output](/Documents/tabOrder.jpg) |
+| Type | Output |
+| ---- | ------ |
+| Voice over text | ![Output](/Documents/voiceOverText.jpg) |
+| Tab Order | ![Output](/Documents/tabOrder.jpg) |
 
 The idea is that you pass in a view, and it generates another view showing the accessible data for the view.
 
