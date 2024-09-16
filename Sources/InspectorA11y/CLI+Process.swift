@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 let textFields = #"Text\("([^"]*)"\)"#
 let textFieldsAndModifiers = #"Text\("([^"]*)"\)((?:\s*\.[a-zA-Z]+\([^)]*\))(?:\s*//.*)?\s*)*"#
@@ -26,11 +27,6 @@ extension CLI {
       do {
         print("Processing: \(url)".yellow())
         try processFile(url: url)
-
-// TODO generate
-//        let c = InspectorA11y(configuration: .voiceOverText)
-//        let image = await c.capture(from: TestView())
-
         print("Processed: \(url)".blue())
       } catch {
         print("Failed to process: \(url)".red())
@@ -75,9 +71,9 @@ extension CLI {
 
           items.append(item)
 
-          print("Match found: \(matchedText)")
+          Logger.cli.info("Match found: \(matchedText)")
         } else {
-          print("Invalid range: \(match.range)")
+          Logger.cli.info("Invalid range: \(match.range)")
         }
 
         counter += 1
@@ -91,7 +87,7 @@ extension CLI {
     fileContents.insert(contentsOf: "import InspectorA11yCore", at: fileContents.index(fileContents.startIndex, offsetBy: 0))
 
     if !dryRun {
-      print("Writing: \(fileURL)")
+      Logger.cli.info("Writing: \(fileURL)")
       try fileContents.write(to: fileURL, atomically: true, encoding: .utf8)
     }
   }
@@ -108,11 +104,11 @@ extension CLI {
           let groupRange = match.range(at: 1)
           if let substringRange = Range(groupRange, in: text) {
             let capturedGroup = text[substringRange]
-            print("Captured group: \(capturedGroup)")
+            Logger.cli.info("Captured group: \(capturedGroup)")
             return String(capturedGroup)  // Return the first found group
           }
         } else {
-          print("No capturing group found in match: \(match)")
+          Logger.cli.info("No capturing group found in match: \(match)")
           return nil
         }
       }
@@ -136,11 +132,11 @@ extension CLI {
           let groupRange = match.range(at: 1)
           if let substringRange = Range(groupRange, in: text) {
             let capturedGroup = text[substringRange]
-            print("Captured group: \(capturedGroup)")
+            Logger.cli.info("Captured group: \(capturedGroup)")
             return String(capturedGroup)  // Return the first found group
           }
         } else {
-          print("No capturing group found in match: \(match)")
+          Logger.cli.info("No capturing group found in match: \(match)")
           return nil
         }
       }
@@ -164,11 +160,11 @@ extension CLI {
           let groupRange = match.range(at: 1)
           if let substringRange = Range(groupRange, in: text) {
             let capturedGroup = text[substringRange]
-            print("Captured group: \(capturedGroup)")
+            Logger.cli.info("Captured group: \(capturedGroup)")
             return String(capturedGroup)  // Return the first found group
           }
         } else {
-          print("No capturing group found in match: \(match)")
+          Logger.cli.info("No capturing group found in match: \(match)")
           return nil
         }
       }

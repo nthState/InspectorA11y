@@ -4,6 +4,7 @@
 
 import Foundation
 import CoreGraphics
+import OSLog
 import SwiftUI
 
 public struct CaptureResult {
@@ -33,7 +34,7 @@ public class InspectorA11y {
                               view
                             //.environment(\.colorScheme, colorScheme)
       .onPreferenceChange(InstructionOverlayPreferenceDataKey.self) { preferences in
-        print("preferences: \(preferences)")
+        Logger.core.debug("preferences: \(preferences)")
         for p in preferences {
           self.rects[p.id] = p.itemData
         }
@@ -47,7 +48,7 @@ public class InspectorA11y {
   }
 
   @MainActor func regen(name: String) -> CaptureResult? {
-    print("generate main image: \(rects)")
+    Logger.core.debug("generate main image: \(self.rects)")
     result = ImageRenderer(content:
 
                             OutputImageGenerator(configuration: configuration, image: capture!, rects: rects)
@@ -59,7 +60,7 @@ public class InspectorA11y {
 
       let filename = output.appendingPathComponent("\(name)_\(configuration.description).png")
 
-      print("writing to \(filename)")
+      Logger.core.debug("writing to \(filename)")
       try? data.write(to: filename)
 
       return CaptureResult(image: result!, url: filename)

@@ -37,30 +37,25 @@ The idea is that you pass in a view, and it generates another view showing the a
 
 I want to see everything at once.
 
-## Testing
-
-```
-swift build
-swift run InspectorA11y
-```
-
 ## Output
 
 We return `images` and `URLs' to the images of the Views we generate.
 
-In the future, we may score each View.
-
-
 ## Accessibility Renderables
-- voice over text       Implemented
-- dark mode light mode
-- rotation
-- larger font sizes
-- color invert mode
-- button shapes
-- device type
-- device sizes
-- tab order             Implemented
+
+I want the user to be able to pick what they want rendered, as this is a Proof of Concept, I've only implemented a couple.
+
+| Feature  | Implemented |
+| -------- | ----------- |
+| voice over text | Yes |
+| dark mode light mode | No |
+| rotation | No |
+| larger font sizes | No |
+| color invert mode | No |
+| button shapes | No |
+| device type | No |
+| device sizes | No |
+| tab order | Yes |
 
 ## Running inside Xcode
 
@@ -93,7 +88,6 @@ final class MyUnitTests: XCTestCase {
 }
 
 ```
-
 
 ## Continuous Integration
 
@@ -180,14 +174,25 @@ Could we add a view modifier to a preview of a view so that we could see the acc
 - watermark as configration
 
 
-## Technical
-- how do we inject render/configurations
-- how do i set the full image size?
-- save as image mode
--- file location
--- file naming
-- realtime mode? - render as a preview with custom size?
-- tile results mode?
-- CI generation and asset upload
-- do i return errors on the image?
-- do I make a swift run command?
+## Future
+
+### Scoring the result
+
+We may score each View on how well it performs
+
+### How do i set the full image size?
+
+It might be easier to have a very large image, render, and then trip transparent pixels
+
+### Realtime mode
+
+Can we render as a preview with custom size inside of Xcode
+
+### Tiled Results
+ 
+Can we render multiple versions to the same image as an optional parameter
+
+## Ackowledgements
+
+Thank you to Alasdair to alerting me to the European Accessibility Act 2025
+Without you, I wouldn't have been frustrated enough to make this tool.

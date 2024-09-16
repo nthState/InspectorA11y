@@ -10,7 +10,7 @@ final class InspectorA11yCoreTests: XCTestCase {
   
   @MainActor func testGenerateAll() async throws {
     
-    let c = InspectorA11y(configuration: .all, output: getDocumentsDirectory())
+    let c = InspectorA11y(configuration: .all, output: FileManager.default.getDocumentsDirectory())
     let image = await c.capture(from: TestView())
     
     XCTAssertNotNil(image)
@@ -18,7 +18,7 @@ final class InspectorA11yCoreTests: XCTestCase {
   
   @MainActor func testGenerateVoiceOverText() async throws {
     
-    let c = InspectorA11y(configuration: .voiceOverText, output: getDocumentsDirectory())
+    let c = InspectorA11y(configuration: .voiceOverText, output: FileManager.default.getDocumentsDirectory())
     let image = await c.capture(from: TestView())
     
     XCTAssertNotNil(image)
@@ -26,7 +26,7 @@ final class InspectorA11yCoreTests: XCTestCase {
   
   @MainActor func testGenerateTabOrder() async throws {
     
-    let c = InspectorA11y(configuration: .tabOrder, output: getDocumentsDirectory())
+    let c = InspectorA11y(configuration: .tabOrder, output: FileManager.default.getDocumentsDirectory())
     let image = await c.capture(from: TestView())
     
     XCTAssertNotNil(image)

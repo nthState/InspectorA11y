@@ -18,13 +18,13 @@ import InspectorA11yCore
 @main
 public struct CLI: AsyncParsableCommand {
   
-  @Argument(help: "Files to change", transform: { URL(fileURLWithPath: $0) })
+  @Argument(help: "Files to process", transform: { URL(fileURLWithPath: $0) })
   var files: [URL] = []
   
   @Option(name: .shortAndLong, help: "Output folder, if none specified, will write to the where the Views are specified")
   var output: String?
   
-  @Flag(name: .shortAndLong, help: "Dry Run writes to the console")
+  @Flag(name: .shortAndLong, help: "Dry Run, writes to the console only, no files are changed")
   var dryRun: Bool = false
   
   @Flag(name: .shortAndLong, help: "Clean the files, reverts, if using this option, all other options are ignored")
@@ -36,8 +36,8 @@ public struct CLI: AsyncParsableCommand {
   
   public mutating func run() async throws {
     
-    print("InspectorA11yCore Starting")
-    
+    print("InspectorA11y Starting")
+
     print("Type 'yes' to continue:".red())
     if let response = readLine(), response.lowercased() == "yes" {
       
@@ -46,7 +46,12 @@ public struct CLI: AsyncParsableCommand {
         cleanFiles()
         return
       }
-      
+
+      if files.isEmpty {
+        print("Operation aborted, no files to process".red())
+        return
+      }
+
       cleanFiles()
       
       processFiles()

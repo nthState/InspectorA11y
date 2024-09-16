@@ -2,25 +2,23 @@
 //  Copyright © nthState Ltd. 2024. All rights reserved.
 //
 
+import OSLog
 import SwiftUI
 
 struct OutputImageGenerator {
   let image: CGImage
   let configuration: GenerationConfiguration
+  let renderConfiguration: RenderConfiguration
   var rects: [String: ItemData] = ["test": ItemData(rect: CGRect(origin: .zero, size: CGSize(width: 100, height: 100)), message: "some message", order: 1)]
 
   let imageSize: CGSize
 
-  init(configuration: GenerationConfiguration, image: CGImage, rects: [String : ItemData] = [: ]) {
+  init(configuration: GenerationConfiguration, renderConfiguration: RenderConfiguration = .init(), image: CGImage, rects: [String : ItemData] = [: ]) {
     self.image = image
     self.configuration = configuration
+    self.renderConfiguration = renderConfiguration
     self.rects = rects
     self.imageSize = CGSize(width: image.width, height: image.height)
-
-    //    playing with source kit here let analysis = Analyser()
-    //    //analysis.findFeatures(inURL: URL(string: "/Users/chrisdavis/Developer/InspectorA11y/Sources/InspectorA11y/TestView.swift")!)
-    //    analysis.getModifiers(inURL: URL(string: "/Users/chrisdavis/Developer/InspectorA11y/Sources/InspectorA11y/TestView.swift")!)
-
   }
 }
 
@@ -42,7 +40,11 @@ extension OutputImageGenerator: View {
       watermark
     }
     .frame(width: 1000, height: 1000)
-    //.coordinateSpace(name: "diagram")
+    .background {
+      if !renderConfiguration.contains(.transparent) {
+        Color.white
+      }
+    }
   }
 
   private var watermark: some View {
@@ -170,7 +172,7 @@ extension OutputImageGenerator: View {
 #Preview {
   if let image = ImageRenderer(content: Image("testImage", bundle: .module)).cgImage {
 
-    print(image)
+    Logger.core.debug("\(String(describing: image))")
     return OutputImageGenerator(configuration: .all, image: image)
   } else {
     return Rectangle()
