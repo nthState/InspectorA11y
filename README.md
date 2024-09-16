@@ -15,6 +15,7 @@ Given the following SwiftUI Code, we can export the Accessibility Overview image
   </tr>
   <tr>
     <td>
+    
     ```swift
 VStack {
   Image(systemName: "photo")
@@ -32,6 +33,7 @@ VStack {
     .accessibility(sortPriority: 2)
 }
 ```
+
     </td>
     <td>![Input](/Documents/input.png)</td>
   </tr>
