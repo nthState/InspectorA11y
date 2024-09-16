@@ -202,3 +202,7 @@ Can we render multiple versions to the same image as an optional parameter
 
 Thank you to Alasdair to alerting me to the European Accessibility Act 2025
 Without you, I wouldn't have been frustrated enough to make this tool.
+
+## Todo
+
+- A a script to generate README images with good examples
