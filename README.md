@@ -167,7 +167,7 @@ Would a regex be easier?
 ### Reflection/Mirror API
 
 Can we use the `Mirror` API to find all of the view modifiers...yes.
-Can we use the `Mirror` API to modify the source? Np.
+Can we use the `Mirror` API to modify the source? No.
 
 ### Realtime Accessibility Previews
 
@@ -179,11 +179,6 @@ Could we add a view modifier to a preview of a view so that we could see the acc
     .inspectorA11y(generate: true, [.accessibilityIdentifiers, .tabOrder], rendering: [.transparent], folder: "", fileNamePrefix: "testview")
 }
 ```
-
-## Rendering options
-- transparency
-- watermark as configration
-
 
 ## Future
 
