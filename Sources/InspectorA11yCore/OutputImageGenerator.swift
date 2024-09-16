@@ -49,7 +49,8 @@ extension OutputImageGenerator: View {
 
   private var watermark: some View {
     ZStack(alignment: .bottomTrailing) {
-      Text("InspectorA11y \(String(describing: Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year))")
+      let year = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 0
+      Text("InspectorA11y \(year)")
         .foregroundStyle(Color.green)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
