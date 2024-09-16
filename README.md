@@ -50,30 +50,6 @@ VStack {
 
 The idea is that you pass in a view, and it generates another view showing the accessible data for the view.
 
-## Why not use Accessibility Inspector?
-
-I want to see everything at once.
-
-## Output
-
-We return `images` and `URLs' to the images of the Views we generate.
-
-## Accessibility Renderables
-
-I want the user to be able to pick what they want rendered, as this is a Proof of Concept, I've only implemented a couple.
-
-| Feature  | Implemented |
-| -------- | ----------- |
-| voice over text | Yes |
-| dark mode light mode | No |
-| rotation | No |
-| larger font sizes | No |
-| color invert mode | No |
-| button shapes | No |
-| device type | No |
-| device sizes | No |
-| tab order | Yes |
-
 ## Running inside Xcode
 
 InspectorA11y needs to modify your source to run, for generation only we need `ENABLE_USER_SCRIPT_SANDBOXING=NO`
@@ -149,8 +125,25 @@ jobs:
           retention-days: 3
 ```
 
+## Why not use Accessibility Inspector?
 
+I want to see everything at once.
 
+## Accessibility Renderables
+
+I want the user to be able to pick what they want rendered, as this is a Proof of Concept, I've only implemented a couple.
+
+| Feature  | Implemented |
+| -------- | ----------- |
+| voice over text | Yes |
+| dark mode light mode | No |
+| rotation | No |
+| larger font sizes | No |
+| color invert mode | No |
+| button shapes | No |
+| device type | No |
+| device sizes | No |
+| tab order | Yes |
 
 ## How it currently works
 
