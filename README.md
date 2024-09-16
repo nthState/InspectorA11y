@@ -63,7 +63,7 @@ echo "yes" | ${BUILD_DIR%Build/*}SourcePackages/checkouts/InspectorA11y/run ${SR
 
 Add a Unit Test for the Views you want to generate Accessibility Images for
 
-```
+```swift
 import XCTest
 import InspectorA11yCore
 
@@ -173,7 +173,7 @@ Can we use the `Mirror` API to modify the source? Np.
 
 Could we add a view modifier to a preview of a view so that we could see the accessibility information in realtime?
 
-```
+```swift
 #Preview {
   TestView()
     .inspectorA11y(generate: true, [.accessibilityIdentifiers, .tabOrder], rendering: [.transparent], folder: "", fileNamePrefix: "testview")
