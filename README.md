@@ -15,8 +15,9 @@ Given the following SwiftUI Code, we can export the Accessibility Overview image
   </tr>
   <tr>
     <td>
-    
-    ```swift
+ 
+ 
+```swift
 VStack {
   Image(systemName: "photo")
     .font(.system(size: 80))
@@ -35,7 +36,11 @@ VStack {
 ```
 
     </td>
-    <td>![Input](/Documents/input.png)</td>
+    <td>
+    
+    ![Input](/Documents/input.png)
+    
+    </td>
   </tr>
 </table>
 
