@@ -9,39 +9,38 @@ I wanted a tool to export, on a per view basis, what I'm missing.
 Given the following SwiftUI Code, we can export the Accessibility Overview images below
 
 <table>
-  <tr>
-    <th>SwiftUI Code</th>
-    <th>Rendered Code</th>
-  </tr>
-  <tr>
-    <td>
- 
- 
+<tr>
+<th>SwiftUI Code</th>
+<th>Rendered Code</th>
+</tr>
+<tr>
+<td>
+
+
 ```swift
 VStack {
-  Image(systemName: "photo")
-    .font(.system(size: 80))
-    .background(in: Circle().inset(by: -40))
-    .backgroundStyle(.blue.gradient)
-    .foregroundStyle(.white.shadow(.drop(radius: 1, y: 1.5)))
-    .padding(60)
-    .accessibilityLabel("A photo")
-    .accessibility(sortPriority: 1)
-  Text("Hello, world!")
-    .foregroundStyle(Color.orange)
-    .font(.largeTitle)
-    .accessibilityLabel("say this")
-    .accessibility(sortPriority: 2)
+	.font(.system(size: 80))
+		.background(in: Circle().inset(by: -40))
+		.backgroundStyle(.blue.gradient)
+		.foregroundStyle(.white.shadow(.drop(radius: 1, y: 1.5)))
+		.padding(60)
+		.accessibilityLabel("A photo")
+		.accessibility(sortPriority: 1)
+	Text("Hello, world!")
+		.foregroundStyle(Color.orange)
+		.font(.largeTitle)
+		.accessibilityLabel("say this")
+		.accessibility(sortPriority: 2)
 }
 ```
 
-    </td>
-    <td>
-    
-    ![Input](/Documents/input.png)
-    
-    </td>
-  </tr>
+</td>
+<td>
+
+![Input](/Documents/input.png)
+
+</td>
+</tr>
 </table>
 
 | Type | Output |
