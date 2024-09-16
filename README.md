@@ -19,7 +19,8 @@ Given the following SwiftUI Code, we can export the Accessibility Overview image
 
 ```swift
 VStack {
-	.font(.system(size: 80))
+  Image(systemName: "photo")
+	  .font(.system(size: 80))
 		.background(in: Circle().inset(by: -40))
 		.backgroundStyle(.blue.gradient)
 		.foregroundStyle(.white.shadow(.drop(radius: 1, y: 1.5)))
